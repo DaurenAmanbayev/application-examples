@@ -22,7 +22,7 @@ jobs:
       - name: Sync html to S3
         run: |
           # Копируем содержимое html в корень бакета, исключая папку templates
-          aws s3 sync ./html s3://cmtr-n0iczb1u-bucket-1771928868 \
+          aws s3 sync . s3://cmtr-n0iczb1u-bucket-1771928868 \
             --delete \
-            --exclude "templates/*" \
+            --exclude "html/*" \
             --exclude ".git*"
