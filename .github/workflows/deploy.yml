@@ -15,5 +15,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: S3 Sync
-        run: aws s3 sync . s3://cmtr-n0iczb1u-bucket-1771928868 --exclude ".git*"
+      - name: Sync files from html folder to S3
+        run: |
+          # Указываем ./html в качестве источника
+          aws s3 sync ./html s3://cmtr-n0iczb1u-bucket-1771928868 --delete --exclude ".git*"
