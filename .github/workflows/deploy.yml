@@ -1,13 +1,17 @@
-name: Deploy Static Website
+name: Deploy Website to S3
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main  # или ваша основная ветка
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -15,7 +19,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Sync files from html folder to S3
+      - name: Sync html to S3
         run: |
-          # Указываем ./html в качестве источника
-          aws s3 sync ./html s3://cmtr-n0iczb1u-bucket-1771928868 --delete --exclude ".git*"
+          # Копируем содержимое html в корень бакета, исключая папку templates
+          aws s3 sync ./html s3://cmtr-n0iczb1u-bucket-1771928868 \
+            --delete \
+            --exclude "templates/*" \
+            --exclude ".git*"
